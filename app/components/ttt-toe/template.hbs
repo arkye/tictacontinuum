@@ -1,0 +1,7 @@
+{{#each parsedBoxes as |boxes|}}
+  <div class="ttt__row">
+    {{#each boxes as |box|}}
+      {{tic-tac-toe model=box.continuum}}
+    {{/each}}
+  </div>
+{{/each}}

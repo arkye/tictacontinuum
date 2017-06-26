@@ -2,14 +2,45 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model() {
-    var continuum = this.store.createRecord('continuum', {
+    return this.createToe();
+  },
+
+  createToe() {
+    var toe = this.store.createRecord('toe', {
       id: 1
     });
-    continuum.get('nodes').pushObjects(this.initialNodeState(continuum));
+
+    toe.get('boxes').pushObjects(this.createBoxes(toe));
+    return toe;
+  },
+
+  createBoxes(toe) {
+    var boxes = Ember.A([]);
+
+    for (var i = 0; i < 9; i++) {
+      var currentBox = this.store.createRecord('box', {
+        id: this.getRandomInt(),
+        toe: toe
+      });
+
+      currentBox.set('continuum', this.createContinuum());
+      boxes.pushObject(currentBox);
+    }
+
+    return boxes;
+  },
+
+  createContinuum() {
+    var continuum = this.store.createRecord('continuum', {
+      id: this.getRandomInt()
+    });
+
+    continuum.get('nodes').pushObjects(this.initialTTTState(continuum));
+
     return continuum;
   },
 
-  initialNodeState(continuum) {
+  initialTTTState(continuum) {
     return this.connectNodeToEdges(continuum);
   },
 
@@ -55,7 +86,7 @@ export default Ember.Route.extend({
 
     for (var i = 0; i < 9; i++) {
       var currentNode = this.store.createRecord('node', {
-        id: i+1,
+        id: this.getRandomInt(),
         weight: weights[i],
         father: continuum,
         border: borders[i]
