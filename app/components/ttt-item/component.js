@@ -26,14 +26,16 @@ export default Ember.Component.extend({
       // change player symbol
       this.set('parent.box.toe.isCircleTurn', (1 - (+ this.get('parent.box.toe.isCircleTurn'))));
 
-      this.set('parent.box.toe.previousMakedPlace', this.get('node.weight'));
-      
+
+
       // increment number of plays
       this.incrementProperty('parent.numberOfPlays');
 
       // check winner
       if (this.get('parent.hasWinner')) {
-        this.sendAction('afterWinner');
+        this.set('parent.box.toe.previousMakedPlace', -1);
+      }else {
+        this.set('parent.box.toe.previousMakedPlace', this.get('node.weight'));
       }
     } else {
       alert('Select a unselected place');
