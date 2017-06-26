@@ -3,19 +3,22 @@ import DS from 'ember-data';
 export default DS.Model.extend({
   nodes: DS.hasMany('node'),
   numberOfPlays: DS.attr('number', { defaultValue: 0}),
-  isCircleTurn: DS.attr('boolean', { defaultValue: true}),
   winner: DS.attr('number', { defaultValue: -1}),
+  box: DS.belongsTo('box'),
 
   hasWinner: Ember.computed('numberOfPlays', function() {
     if (this.get('numberOfPlays') >= 3) {
       if (this.checkWinner(1)) {
         this.set('winner', 1);
+        this.incrementProperty('box.toe.numberOfPlays');
         return true;
       } else if (this.checkWinner(0)) {
         this.set('winner', 0);
+        this.incrementProperty('box.toe.numberOfPlays');
         return true;
       } else if(this.get('numberOfPlays') == 9) {
         this.set('winner', -2);
+        this.incrementProperty('box.toe.numberOfPlays');
         return true;
       }
     }

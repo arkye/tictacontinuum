@@ -15,10 +15,10 @@ export default Ember.Component.extend({
   newInputHandle() {
     if (this.get('node.player') == -1) {
       // set player mark to position
-      this.set('node.player', + this.get('parent.isCircleTurn'));
+      this.set('node.player', + this.get('parent.box.toe.isCircleTurn'));
 
       // change player symbol
-      this.set('parent.isCircleTurn', (1 - (+ this.get('parent.isCircleTurn'))));
+      this.set('parent.box.toe.isCircleTurn', (1 - (+ this.get('parent.box.toe.isCircleTurn'))));
 
       // increment number of plays
       this.incrementProperty('parent.numberOfPlays');

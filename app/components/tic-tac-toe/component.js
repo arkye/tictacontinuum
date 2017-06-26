@@ -5,7 +5,7 @@ export default Ember.Component.extend({
 
   actions: {
     tictactoeHasFineshied() {
-      console.log('result ---', this.get('model.winner'));
+      
     }
   },
 

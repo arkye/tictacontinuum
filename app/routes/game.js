@@ -10,31 +10,68 @@ export default Ember.Route.extend({
       id: 1
     });
 
-    toe.get('boxes').pushObjects(this.createBoxes(toe));
+    toe.get('boxes').pushObjects(this.connectBoxToEdges(toe));
     return toe;
   },
 
   createBoxes(toe) {
     var boxes = Ember.A([]);
     var borders = this.createBorders();
+    var weights = [8,1,6,3,5,7,4,9,2];
 
     for (var i = 0; i < 9; i++) {
       var currentBox = this.store.createRecord('box', {
         id: this.getRandomInt(),
-        border: borders[i], 
+        border: borders[i],
+        weight: weights[i],
         toe: toe
       });
 
-      currentBox.set('continuum', this.createContinuum());
+      currentBox.set('continuum', this.createContinuum(currentBox));
       boxes.pushObject(currentBox);
     }
 
     return boxes;
   },
 
-  createContinuum() {
+  connectBoxToEdges(toe) {
+    let boxes = this.createBoxes(toe);
+
+    var edges = [
+                [2,4,5], [1,3,5], [2,5,6],
+                [1,5,7], [1,2,3,4,6,7,8,9], [3,5,9],
+                [4,5,8], [7,5,9], [8,5,6]
+               ]
+
+     var edgesWeight = [
+                 [3,1,4], [3,3,1], [3,2,1],
+                 [1,3,1], [4,1,2,3,3,2,1,4], [1,3,1],
+                 [1,2,3], [3,1,3], [3,4,1]
+                ]
+
+    for (var i = 0; i < 9; i++) {
+      var currentBox = boxes.objectAt(i);
+      var boxEdges = Ember.A([]);
+
+      for (var j = 0; j < edges[i].length; j++) {
+        boxEdges.pushObject(this.store.createRecord('boxedge', {
+          id: this.getRandomInt(),
+          weight: edgesWeight[i][j],
+          source: currentBox,
+          target: boxes.objectAt(edges[i][j]-1)
+        }))
+      }
+
+      currentBox.get('edges').pushObjects(boxEdges);
+    }
+
+    return boxes;
+  },
+
+  createContinuum(box) {
     var continuum = this.store.createRecord('continuum', {
-      id: this.getRandomInt()
+      id: this.getRandomInt(),
+      box: box
     });
 
     continuum.get('nodes').pushObjects(this.initialTTTState(continuum));

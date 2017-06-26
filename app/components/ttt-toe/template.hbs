@@ -5,3 +5,20 @@
     {{/each}}
   </div>
 {{/each}}
+
+{{#if model.hasWinner}}
+  <div class="ttt__winner-wrapper">
+    {{#if (eq model.winner 1)}}
+      {{ttt-circle outter=true}}
+    {{else}}
+      {{#if (eq model.winner 0)}}
+        {{ttt-x}}
+        {{else}}
+          {{#if (eq model.winner -2)}}
+            {{ttt-circle outter=true catsgame=true}}
+            {{ttt-x catsgame=true}}
+          {{/if}}
+      {{/if}}
+    {{/if}}
+  </div>
+{{/if}}
