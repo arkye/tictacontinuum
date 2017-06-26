@@ -16,10 +16,12 @@ export default Ember.Route.extend({
 
   createBoxes(toe) {
     var boxes = Ember.A([]);
+    var borders = this.createBorders();
 
     for (var i = 0; i < 9; i++) {
       var currentBox = this.store.createRecord('box', {
         id: this.getRandomInt(),
+        border: borders[i], 
         toe: toe
       });
 
