@@ -5,10 +5,18 @@ export default Ember.Component.extend({
   classNameBindings: ['node.border.top:ttt__item--top', 'node.border.right:ttt__item--right', 'node.border.left:ttt__item--left', 'node.border.bottom:ttt__item--bottom'],
 
   click() {
-    if (!this.get('parent.hasWinner')) {
-      this.newInputHandle();
+    var nextAllowedPlaceWeight = this.get('parent.box.toe.nextAllowedPlaceWeight');
+
+    console.log('3 -----', nextAllowedPlaceWeight);
+
+    if ( nextAllowedPlaceWeight == this.get('parent.box.weight') || nextAllowedPlaceWeight == -1) {
+      if (!this.get('parent.hasWinner')) {
+        this.newInputHandle();
+      } else {
+        alert('Acabou!');
+      }
     } else {
-      alert('Acabou!');
+      alert('Mark in the right place');
     }
   },
 
@@ -20,6 +28,9 @@ export default Ember.Component.extend({
       // change player symbol
       this.set('parent.box.toe.isCircleTurn', (1 - (+ this.get('parent.box.toe.isCircleTurn'))));
 
+      this.set('parent.box.toe.previousMakedPlace', this.get('node.weight'));
+      console.log('1 ----- ', this.get('node.weight'));
+      console.log('2 ----- ', this.get('parent.box.toe.previousMakedPlace'));
       // increment number of plays
       this.incrementProperty('parent.numberOfPlays');
 

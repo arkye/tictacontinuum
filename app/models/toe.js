@@ -5,6 +5,26 @@ export default DS.Model.extend({
   isCircleTurn: DS.attr('boolean', { defaultValue: true}),
   winner: DS.attr('number', { defaultValue: -1}),
   numberOfPlays: DS.attr('number', { defaultValue: 0}),
+  previousMakedPlace: DS.attr('number', {defaultValue: -1}),
+
+  nextAllowedPlaceWeight: Ember.computed('previousMakedPlace', function() {
+    if (this.get('previousMakedPlace') != -1) {
+      var selectedBox = null;
+      this.get('boxes').toArray().forEach((box) => {
+        if (box.get('weight') == this.get('previousMakedPlace')) {
+          selectedBox = box;  
+        }
+      });
+
+      if (selectedBox.get('player') == -1) {
+        return this.get('previousMakedPlace');
+      } else {
+        return -1;
+      }
+    }
+
+    return -1;
+  }),
 
   hasWinner: Ember.computed('numberOfPlays', function() {
     if (this.get('numberOfPlays') >= 3) {
