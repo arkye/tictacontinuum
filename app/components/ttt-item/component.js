@@ -2,10 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['ttt__item'],
-  classNameBindings: ['noBorderTop:ttt__item--top', 'noBorderRight:ttt__item--right', 'noBorderLeft:ttt__item--left', 'noBorderBottom:ttt__item--bottom'],
+  classNameBindings: ['node.border.top:ttt__item--top', 'node.border.right:ttt__item--right', 'node.border.left:ttt__item--left', 'node.border.bottom:ttt__item--bottom'],
 
   click() {
-    if (!this.get('model.hasWinner')) {
+    if (!this.get('parent.hasWinner')) {
       this.newInputHandle();
     } else {
       alert('Acabou!');
@@ -13,18 +13,18 @@ export default Ember.Component.extend({
   },
 
   newInputHandle() {
-    if (this.get('value') == -1) {
+    if (this.get('node.player') == -1) {
       // set player mark to position
-      this.set('value', + this.get('model.isCircleTurn'));
+      this.set('node.player', + this.get('parent.isCircleTurn'));
 
       // change player symbol
-      this.set('model.isCircleTurn', (1 - (+ this.get('model.isCircleTurn'))));
+      this.set('parent.isCircleTurn', (1 - (+ this.get('parent.isCircleTurn'))));
 
       // increment number of plays
-      this.incrementProperty('model.numberOfPlays');
+      this.incrementProperty('parent.numberOfPlays');
 
       // check winner
-      if (this.get('model.hasWinner')) {
+      if (this.get('parent.hasWinner')) {
         this.sendAction('afterWinner');
       }
     } else {

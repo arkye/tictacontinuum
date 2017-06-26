@@ -1,10 +1,9 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  id: DS.attr('number'),
-  father: DS.belongsTo('continuum'),
   weight: DS.attr('number'),
-  player: DS.belongsTo('player'),
-  edges: DS.hasMany('nodeedge'),
-  box: DS.belongsTo('box')
+  father: DS.belongsTo('continuum'),
+  edges: DS.hasMany('nodeedge', { inverse: null }),
+  player: DS.attr('number', {defaultValue: -1}),
+  border: DS.belongsTo('nodeBorders')
 });
