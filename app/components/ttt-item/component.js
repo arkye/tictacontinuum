@@ -7,8 +7,6 @@ export default Ember.Component.extend({
   click() {
     var nextAllowedPlaceWeight = this.get('parent.box.toe.nextAllowedPlaceWeight');
 
-    console.log('3 -----', nextAllowedPlaceWeight);
-
     if ( nextAllowedPlaceWeight == this.get('parent.box.weight') || nextAllowedPlaceWeight == -1) {
       if (!this.get('parent.hasWinner')) {
         this.newInputHandle();
@@ -29,8 +27,7 @@ export default Ember.Component.extend({
       this.set('parent.box.toe.isCircleTurn', (1 - (+ this.get('parent.box.toe.isCircleTurn'))));
 
       this.set('parent.box.toe.previousMakedPlace', this.get('node.weight'));
-      console.log('1 ----- ', this.get('node.weight'));
-      console.log('2 ----- ', this.get('parent.box.toe.previousMakedPlace'));
+      
       // increment number of plays
       this.incrementProperty('parent.numberOfPlays');
 
