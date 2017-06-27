@@ -33,7 +33,11 @@ export default Ember.Component.extend({
 
       // check winner
       if (this.get('parent.hasWinner')) {
-        this.set('parent.box.toe.previousMakedPlace', -1);
+        if (this.get('node.weight') == this.get('parent.box.weight')) {
+          this.set('parent.box.toe.previousMakedPlace', -1);
+        } else {
+          this.set('parent.box.toe.previousMakedPlace', this.get('node.weight'));
+        }
       }else {
         this.set('parent.box.toe.previousMakedPlace', this.get('node.weight'));
       }
